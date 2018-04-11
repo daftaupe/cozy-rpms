@@ -7,7 +7,7 @@ Release:        0%{?dist}
 Summary:        Cozy: Simple, Versatile, Yours
 
 Group:          Applications/System
-License:        AGPL v3
+License:        AGPLv3
 URL:            https://%{repo}
 Source0:        https://%{repo}/releases/download/2018M1S6/%{name}_%{version}.orig.tar.xz
 Source1:        https://raw.githubusercontent.com/cozy/%{name}/master/cozy.example.yaml
@@ -15,7 +15,7 @@ Source1:        https://raw.githubusercontent.com/cozy/%{name}/master/cozy.examp
 AutoReq:        no
 AutoReqProv:    no
 
-BuildRequires:  tar gzip git golang
+BuildRequires:  git golang systemd
 
 %description
 Cozy: Simple, Versatile, Yours
@@ -35,12 +35,12 @@ COZY_ENV=production GOOS=linux GOARCH=amd64 VERSION_STRING=prod ./scripts/build.
 %install
 mkdir -p %{buildroot}/usr/local/bin
 cp bin/cozy-stack %{buildroot}/usr/local/bin/cozy-stack
-mkdir -p %{buildroot}/var/cozy
-cp src/%{repo}/scripts/konnector-node-run.sh %{buildroot}/var/cozy
-cp src/%{repo}/scripts/konnector-nsjail-run.sh %{buildroot}/var/cozy
-cp src/%{repo}/scripts/konnector-rkt-run.sh %{buildroot}/var/cozy
-mkdir -p %{buildroot}/etc/systemd/system
-cat << EOF > %{buildroot}/etc/systemd/system/cozy-stack.service
+mkdir -p %{buildroot}%{_datarootdir}/cozy
+cp src/%{repo}/scripts/konnector-node-run.sh %{buildroot}%{_datarootdir}/cozy
+cp src/%{repo}/scripts/konnector-nsjail-run.sh %{buildroot}%{_datarootdir}/cozy
+cp src/%{repo}/scripts/konnector-rkt-run.sh %{buildroot}%{_datarootdir}/cozy
+mkdir -p %{buildroot}%{_unitdir}
+cat << EOF > %{buildroot}%{_unitdir}/cozy-stack.service
 [Unit]
 Description=Cozy service
 Wants=couchdb.service
@@ -56,11 +56,9 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 EOF
-mkdir -p %{buildroot}/etc/cozy
-cp %{SOURCE1} %{buildroot}/etc/cozy/cozy.yaml
-sed -i 's@# url: file://localhost/var/lib/cozy@url: file://localhost/var/lib/cozy@' %{buildroot}/etc/cozy/cozy.yaml
-sed -i 's@/path/to/key.enc@/home/cozy/keys/key.enc@' %{buildroot}/etc/cozy/cozy.yaml
-sed -i 's@/path/to/key.dec@/home/cozy/keys/key.dec@' %{buildroot}/etc/cozy/cozy.yaml
+mkdir -p %{buildroot}%{_sysconfdir}/cozy
+cp %{SOURCE1} %{buildroot}%{_sysconfdir}/cozy/cozy.yaml
+sed -i 's@# url: file://localhost/var/lib/cozy@url: file://localhost/var/lib/cozy@;s@/path/to/key.enc@/home/cozy/keys/key.enc@;s@/path/to/key.dec@/home/cozy/keys/key.dec@;s@cmd: ./scripts@cmd: %{_datarootdir}/cozy@g' %{buildroot}%{_sysconfdir}/cozy/cozy.yaml
 
 %pre
 
@@ -89,11 +87,12 @@ fi
 
 %files
 /usr/local/bin/cozy-stack
-/etc/systemd/system/cozy-stack.service
-%config /etc/cozy/cozy.yaml
-/var/cozy/konnector-node-run.sh
-/var/cozy/konnector-nsjail-run.sh
-/var/cozy/konnector-rkt-run.sh
+%{_unitdir}/cozy-stack.service
+%config %{_sysconfdir}/cozy/cozy.yaml
+%{_datarootdir}/cozy/konnector-node-run.sh
+%{_datarootdir}/cozy/konnector-nsjail-run.sh
+%{_datarootdir}/cozy/konnector-rkt-run.sh
+%license src/%{repo}/LICENSE
 
 %changelog
 * Sun Mar 25 2018 Pierre-Alain TORET <pierre-alain.toret@protonmail.com> 2018M1S6-0

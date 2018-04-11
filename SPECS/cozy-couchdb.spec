@@ -8,7 +8,7 @@ Summary:        CouchDB for cozy
 Group:          Applications/System
 License:        Apache-2.0
 URL:            https://couchdb.apache.org/
-Source0:        http://apache.mediamirrors.org/couchdb/source/%{version}/apache-couchdb-%{version}.tar.gz
+Source0:        https://apache.mediamirrors.org/couchdb/source/%{version}/apache-couchdb-%{version}.tar.gz
 
 AutoReq:        no 
 AutoReqProv:    no 

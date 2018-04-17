@@ -2,14 +2,14 @@
 %define repo github.com/cozy/cozy-stack
 
 Name:           cozy-stack
-Version:        2018M1S6
+Version:        2018M2S1
 Release:        1%{?dist}
 Summary:        Cozy: Simple, Versatile, Yours
 
 Group:          Applications/System
 License:        AGPLv3
 URL:            https://%{repo}
-Source0:        https://%{repo}/releases/download/2018M1S6/%{name}_%{version}.orig.tar.xz
+Source0:        https://apt.cozy.io/debian/pool/testing/c/%{name}/%{name}_%{version}.orig.tar.xz
 Source1:        https://raw.githubusercontent.com/cozy/%{name}/master/cozy.example.yaml
 
 AutoReq:        no
@@ -105,6 +105,9 @@ fi
 %license src/%{repo}/LICENSE
 
 %changelog
+* Tue Apr 17 2018 Pierre-Alain TORET <pierre-alain.toret@protonmail.com> 2018M2S1-1
+- New release 2018M2S1
+
 * Sun Mar 25 2018 Pierre-Alain TORET <pierre-alain.toret@protonmail.com> 2018M1S6-1
 - Improve scriptlets
 - Move things to more standard paths

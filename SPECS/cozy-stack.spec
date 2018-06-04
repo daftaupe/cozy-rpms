@@ -105,7 +105,7 @@ fi
 %license src/%{repo}/LICENSE
 
 %changelog
-* Mon June 04 2018 Pierre-Alain TORET <pierre-alain.toret@protonmail.com> 2018M2S5-1
+* Mon Jun 04 2018 Pierre-Alain TORET <pierre-alain.toret@protonmail.com> 2018M2S5-1
 - New release 2018M2S5
 
 * Mon May 21 2018 Pierre-Alain TORET <pierre-alain.toret@protonmail.com> 2018M2S4-1

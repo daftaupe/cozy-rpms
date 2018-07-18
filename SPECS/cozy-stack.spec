@@ -2,7 +2,7 @@
 %define repo github.com/cozy/cozy-stack
 
 Name:           cozy-stack
-Version:        2018M2S5
+Version:        2018M3S2
 Release:        1%{?dist}
 Summary:        Cozy: Simple, Versatile, Yours
 
@@ -105,6 +105,9 @@ fi
 %license src/%{repo}/LICENSE
 
 %changelog
+* Wed Jul 18 2018 Pierre-Alain TORET <pierre-alain.toret@protonmail.com> 2018M3S2-1
+- New release 2018M3S2
+
 * Mon Jun 04 2018 Pierre-Alain TORET <pierre-alain.toret@protonmail.com> 2018M2S5-1
 - New release 2018M2S5
 
